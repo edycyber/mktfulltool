@@ -1,74 +1,102 @@
-<html><head><base href="https://websim.ai/marketing-plan-generator/">
-<title>Marketing Plan Generator</title>
+<html><head>
+<title>Dynamic Marketing Plan Generator</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: #333;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #f0f4f8;
+  }
+  h1, h2, h3 {
+    color: #2c3e50;
   }
   h1 {
-    color: #2c3e50;
     text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
   }
-  form {
+  form, #result, #sectorSelection {
     background-color: #fff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
   }
   label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #34495e;
   }
-  input[type="text"], textarea {
+  input[type="text"], textarea, select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bdc3c7;
     border-radius: 4px;
+    font-size: 16px;
   }
   button {
     background-color: #3498db;
     color: #fff;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
   }
   button:hover {
     background-color: #2980b9;
   }
-  #result {
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
   #downloadBtn {
     display: none;
     margin-top: 20px;
+    background-color: #27ae60;
+  }
+  #downloadBtn:hover {
+    background-color: #219653;
+  }
+  .tip {
+    background-color: #e8f4fd;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 4px 4px 0;
+  }
+  .recommendation {
+    background-color: #e9f7ef;
+    border-left: 4px solid #27ae60;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 4px 4px 0;
   }
 </style>
 </head>
 <body>
-  <h1>Marketing Plan Generator</h1>
+  <h1>Dynamic Marketing Plan Generator</h1>
   <form id="marketingForm">
     <label for="companyName">Company Name:</label>
     <input type="text" id="companyName" required>
     
-    <label for="sector">Sector:</label>
-    <input type="text" id="sector" required>
+    <label for="sector">Business Sector:</label>
+    <select id="sector" required>
+      <option value="">Select a sector</option>
+      <option value="ecommerce">E-commerce</option>
+      <option value="saas">Software as a Service (SaaS)</option>
+      <option value="fintech">Financial Technology (FinTech)</option>
+      <option value="edtech">Educational Technology (EdTech)</option>
+      <option value="healthtech">Health Technology (HealthTech)</option>
+      <option value="iot">Internet of Things (IoT)</option>
+      <option value="ai">Artificial Intelligence / Machine Learning</option>
+    </select>
     
-    <label for="competitors">Nearby Competitors (comma-separated):</label>
+    <label for="competitors">Main Competitors (comma-separated):</label>
     <textarea id="competitors" rows="3" required></textarea>
     
     <button type="submit">Generate Marketing Plan</button>
@@ -84,6 +112,93 @@
     const downloadBtn = document.getElementById('downloadBtn');
     let marketingPlan = '';
 
+    const sectorStrategies = {
+      ecommerce: {
+        title: "E-commerce Marketing Strategies",
+        strategies: [
+          "Implement personalized product recommendations based on browsing history",
+          "Use retargeting ads to re-engage potential customers",
+          "Optimize for mobile shopping experience",
+          "Leverage user-generated content and reviews",
+          "Implement an abandoned cart recovery strategy"
+        ],
+        tip: "Focus on reducing friction in the checkout process to improve conversion rates.",
+        recommendation: "Invest in high-quality product images and detailed descriptions to enhance the online shopping experience."
+      },
+      saas: {
+        title: "SaaS Marketing Strategies",
+        strategies: [
+          "Offer free trials or freemium models to showcase product value",
+          "Create in-depth content marketing to educate potential customers",
+          "Implement a robust referral program",
+          "Use case studies and testimonials to build trust",
+          "Leverage integration partnerships with complementary tools"
+        ],
+        tip: "Continuously gather and act on user feedback to improve your product and reduce churn.",
+        recommendation: "Invest in customer success programs to ensure long-term retention and upsells."
+      },
+      fintech: {
+        title: "FinTech Marketing Strategies",
+        strategies: [
+          "Focus on building trust through security certifications and compliance",
+          "Create educational content about personal finance and your solutions",
+          "Leverage influencer partnerships with finance experts",
+          "Implement a strong PR strategy to build credibility",
+          "Use data visualization to simplify complex financial concepts"
+        ],
+        tip: "Prioritize transparency in your marketing to build trust with potential customers.",
+        recommendation: "Develop a strong mobile app strategy, as many users prefer managing finances on-the-go."
+      },
+      edtech: {
+        title: "EdTech Marketing Strategies",
+        strategies: [
+          "Partner with educational institutions for wider reach",
+          "Create free educational resources to showcase expertise",
+          "Implement gamification elements to increase engagement",
+          "Use social proof from educators and students",
+          "Leverage seasonal marketing (back-to-school, exam periods)"
+        ],
+        tip: "Focus on demonstrating measurable learning outcomes in your marketing materials.",
+        recommendation: "Develop a strong community around your product to encourage peer learning and support."
+      },
+      healthtech: {
+        title: "HealthTech Marketing Strategies",
+        strategies: [
+          "Prioritize HIPAA compliance and data security in messaging",
+          "Partner with healthcare providers and institutions",
+          "Create content that educates on health issues and your solutions",
+          "Leverage telemedicine trends in your marketing",
+          "Use patient success stories (with proper consent)"
+        ],
+        tip: "Ensure all health claims are backed by scientific evidence to maintain credibility.",
+        recommendation: "Invest in building relationships with healthcare professionals who can become advocates for your product."
+      },
+      iot: {
+        title: "IoT Marketing Strategies",
+        strategies: [
+          "Create demo videos showcasing real-world applications",
+          "Develop use case scenarios for different industries",
+          "Participate in IoT conferences and trade shows",
+          "Focus on the data insights and efficiency gains from IoT",
+          "Address security concerns proactively in marketing materials"
+        ],
+        tip: "Use storytelling to help potential customers envision how IoT can transform their operations.",
+        recommendation: "Develop a strong ecosystem of partners to showcase the interoperability of your IoT solutions."
+      },
+      ai: {
+        title: "AI/ML Marketing Strategies",
+        strategies: [
+          "Demystify AI through educational content and webinars",
+          "Showcase practical applications and ROI of AI implementation",
+          "Address ethical concerns and biases in AI openly",
+          "Offer free trials or POCs to demonstrate value",
+          "Leverage thought leadership content to establish expertise"
+        ],
+        tip: "Focus on the problem-solving capabilities of your AI solution rather than the technology itself.",
+        recommendation: "Develop case studies that quantify the impact of your AI solutions on business metrics."
+      }
+    };
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       const companyName = document.getElementById('companyName').value;
@@ -94,35 +209,41 @@
     });
 
     function generateMarketingPlan(company, sector, competitors) {
-      // This is a simplified version. In a real application, you'd want to use more sophisticated analysis and possibly AI.
+      const sectorData = sectorStrategies[sector];
+      
       marketingPlan = `
-        <h2>Marketing Plan for ${company}</h2>
+        <h2>Dynamic Marketing Plan for ${company}</h2>
         <h3>1. Company Overview</h3>
-        <p>${company} operates in the ${sector} sector.</p>
+        <p>${company} operates in the ${sector} sector, a dynamic and innovative space in the digital economy.</p>
         
         <h3>2. Competitor Analysis</h3>
         <p>Main competitors: ${competitors.join(', ')}.</p>
-        <p>To stand out, ${company} should focus on unique value propositions and exceptional customer service.</p>
+        <p>To gain a competitive edge, ${company} should focus on unique value propositions, superior user experience, and innovative features that address specific pain points in the ${sector} market.</p>
         
         <h3>3. Target Market</h3>
-        <p>Identify key demographics interested in ${sector} products/services.</p>
+        <p>Identify key demographics and psychographics interested in ${sector} solutions. Consider factors such as tech-savviness, industry-specific needs, and pain points that your product addresses.</p>
         
-        <h3>4. Marketing Strategies</h3>
+        <h3>4. ${sectorData.title}</h3>
         <ul>
-          <li>Develop a strong online presence through SEO and social media marketing.</li>
-          <li>Implement a content marketing strategy to establish thought leadership in the ${sector}.</li>
-          <li>Consider partnerships or collaborations with complementary businesses.</li>
-          <li>Utilize email marketing for customer retention and lead nurturing.</li>
+          ${sectorData.strategies.map(strategy => `<li>${strategy}</li>`).join('')}
         </ul>
         
         <h3>5. Budget Allocation</h3>
-        <p>Allocate budget across digital marketing, traditional advertising, and market research.</p>
+        <p>Allocate budget across digital marketing channels, content creation, paid advertising, and customer acquisition strategies specific to the ${sector} sector.</p>
         
         <h3>6. Metrics and KPIs</h3>
-        <p>Track website traffic, conversion rates, customer acquisition cost, and ROI for each marketing channel.</p>
+        <p>Track key performance indicators such as Customer Acquisition Cost (CAC), Lifetime Value (LTV), churn rate, and sector-specific metrics that demonstrate the value of your solution.</p>
         
         <h3>7. Timeline</h3>
-        <p>Implement strategies over the next 12 months, with quarterly reviews and adjustments.</p>
+        <p>Implement strategies over the next 12 months, with monthly reviews and quarterly strategy adjustments to stay agile in the fast-paced ${sector} market.</p>
+
+        <div class="tip">
+          <strong>Tip:</strong> ${sectorData.tip}
+        </div>
+
+        <div class="recommendation">
+          <strong>Recommendation:</strong> ${sectorData.recommendation}
+        </div>
       `;
       
       result.innerHTML = marketingPlan;
@@ -135,11 +256,11 @@
       
       doc.html(result, {
         callback: function(doc) {
-          doc.save('marketing_plan.pdf');
+          doc.save('dynamic_marketing_plan.pdf');
         },
         x: 15,
         y: 15,
-        width: 170,
+        width: 180,
         windowWidth: 650
       });
     });
