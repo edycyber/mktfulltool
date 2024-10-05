@@ -1,0 +1,247 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/social-content-calendar">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Content Calendar | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .calendar-container {
+    margin-top: 2rem;
+  }
+  
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  
+  .calendar-header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .calendar-day {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    min-height: 100px;
+    background-color: #f9f9f9;
+  }
+  
+  .calendar-day:hover {
+    background-color: #e8f4fd;
+  }
+  
+  .post-form {
+    margin-top: 2rem;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .seo-tips {
+    margin-top: 2rem;
+    background-color: #e8f4fd;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Social Media Content Calendar</h1>
+    <p>Plan and schedule your SEO-optimized social media content</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#social-media-seo">Social Media SEO Tools</a></li>
+      <li><a href="/seo-guide/hashtag-analyzer">Hashtag Analyzer</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="calendar-container">
+      <h2>Content Calendar</h2>
+      <div class="calendar">
+        <div class="calendar-header">Sun</div>
+        <div class="calendar-header">Mon</div>
+        <div class="calendar-header">Tue</div>
+        <div class="calendar-header">Wed</div>
+        <div class="calendar-header">Thu</div>
+        <div class="calendar-header">Fri</div>
+        <div class="calendar-header">Sat</div>
+        
+        <!-- Generate 28 calendar days -->
+        <script>
+          for (let i = 1; i <= 28; i++) {
+            document.write('<div class="calendar-day" id="day-' + i + '">' + i + '</div>');
+          }
+        </script>
+      </div>
+    </section>
+    
+    <section class="post-form">
+      <h2>Schedule a New Post</h2>
+      <form id="postForm">
+        <input type="date" id="postDate" required>
+        <input type="text" id="postTitle" placeholder="Post Title" required>
+        <textarea id="postContent" placeholder="Post Content" rows="4" required></textarea>
+        <select id="postPlatform" required>
+          <option value="">Select Platform</option>
+          <option value="facebook">Facebook</option>
+          <option value="twitter">Twitter</option>
+          <option value="instagram">Instagram</option>
+          <option value="linkedin">LinkedIn</option>
+        </select>
+        <input type="text" id="postHashtags" placeholder="Hashtags (comma-separated)">
+        <button type="submit">Schedule Post</button>
+      </form>
+    </section>
+    
+    <section class="seo-tips">
+      <h2>SEO Tips for Social Media Content</h2>
+      <ul>
+        <li>Use relevant keywords in your post content and titles</li>
+        <li>Include hashtags that are popular and relevant to your industry</li>
+        <li>Optimize your profile descriptions with keywords</li>
+        <li>Share links to your website content to drive traffic</li>
+        <li>Use alt text for images to improve accessibility and SEO</li>
+        <li>Engage with your audience to increase social signals</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const date = document.getElementById('postDate').value;
+      const title = document.getElementById('postTitle').value;
+      const content = document.getElementById('postContent').value;
+      const platform = document.getElementById('postPlatform').value;
+      const hashtags = document.getElementById('postHashtags').value;
+      
+      schedulePost(date, title, content, platform, hashtags);
+    });
+
+    function schedulePost(date, title, content, platform, hashtags) {
+      const postDate = new Date(date);
+      const dayNumber = postDate.getDate();
+      const dayElement = document.getElementById('day-' + dayNumber);
+      
+      if (dayElement) {
+        const postElement = document.createElement('div');
+        postElement.innerHTML = `<strong>${title}</strong><br>${platform}<br>${content.substring(0, 30)}...`;
+        postElement.style.backgroundColor = getPlatformColor(platform);
+        postElement.style.padding = '5px';
+        postElement.style.marginTop = '5px';
+        postElement.style.borderRadius = '3px';
+        postElement.style.fontSize = '0.8em';
+        dayElement.appendChild(postElement);
+        
+        alert('Post scheduled successfully!');
+      } else {
+        alert('Selected date is not visible on the current calendar view.');
+      }
+    }
+
+    function getPlatformColor(platform) {
+      switch(platform) {
+        case 'facebook': return '#3b5998';
+        case 'twitter': return '#1da1f2';
+        case 'instagram': return '#c13584';
+        case 'linkedin': return '#0077b5';
+        default: return '#333333';
+      }
+    }
+  </script>
+</body></html>

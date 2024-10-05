@@ -1,0 +1,214 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/brand-voice-checker">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Voice Consistency Checker | SEO Guide</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .tool-section {
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .consistency-meter {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  
+  .consistency-fill {
+    height: 100%;
+    background-color: var(--secondary-color);
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .keyword-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .keyword {
+    background-color: #e0e0e0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Brand Voice Consistency Checker</h1>
+    <p>Ensure your brand voice is consistent across all online platforms</p>
+  </header>
+  
+  <main>
+    <section class="tool-section">
+      <h2>Brand Voice Profile</h2>
+      <form id="brandVoiceForm">
+        <label for="brandName">Brand Name:</label>
+        <input type="text" id="brandName" required>
+        
+        <label for="brandValues">Brand Values (comma-separated):</label>
+        <input type="text" id="brandValues" placeholder="e.g., innovative, trustworthy, eco-friendly" required>
+        
+        <label for="toneOfVoice">Tone of Voice:</label>
+        <select id="toneOfVoice" required>
+          <option value="">Select a tone</option>
+          <option value="friendly">Friendly</option>
+          <option value="professional">Professional</option>
+          <option value="authoritative">Authoritative</option>
+          <option value="playful">Playful</option>
+          <option value="empathetic">Empathetic</option>
+        </select>
+        
+        <label for="contentSample">Content Sample:</label>
+        <textarea id="contentSample" rows="5" placeholder="Paste a sample of your brand's content here" required></textarea>
+        
+        <button type="submit">Analyze Brand Voice</button>
+      </form>
+    </section>
+    
+    <section id="results" class="results" style="display: none;">
+      <h2>Brand Voice Analysis Results</h2>
+      <div id="consistencyResults"></div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('brandVoiceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      analyzeBrandVoice();
+    });
+
+    function analyzeBrandVoice() {
+      const brandName = document.getElementById('brandName').value;
+      const brandValues = document.getElementById('brandValues').value.split(',').map(value => value.trim());
+      const toneOfVoice = document.getElementById('toneOfVoice').value;
+      const contentSample = document.getElementById('contentSample').value;
+      
+      // In a real-world scenario, this would involve complex NLP analysis
+      // For this example, we'll simulate the analysis
+      
+      const consistencyScore = Math.floor(Math.random() * 31) + 70; // Random score between 70-100
+      const keywordMatches = brandValues.filter(() => Math.random() > 0.3);
+      const toneMatch = Math.random() > 0.7;
+      
+      displayResults(brandName, consistencyScore, keywordMatches, toneMatch, toneOfVoice);
+    }
+
+    function displayResults(brandName, consistencyScore, keywordMatches, toneMatch, toneOfVoice) {
+      const resultsSection = document.getElementById('results');
+      const consistencyResults = document.getElementById('consistencyResults');
+      
+      let resultsHTML = `
+        <h3>${brandName} Voice Consistency: ${consistencyScore}%</h3>
+        <div class="consistency-meter">
+          <div class="consistency-fill" style="width: ${consistencyScore}%;"></div>
+        </div>
+      `;
+      
+      if (consistencyScore >= 90) {
+        resultsHTML += '<p>Excellent! Your brand voice is highly consistent.</p>';
+      } else if (consistencyScore >= 75) {
+        resultsHTML += '<p>Good job! Your brand voice is mostly consistent, but there\'s room for improvement.</p>';
+      } else {
+        resultsHTML += '<p>Your brand voice could use some work to improve consistency.</p>';
+      }
+      
+      resultsHTML += '<h4>Keyword Matches:</h4>';
+      if (keywordMatches.length > 0) {
+        resultsHTML += '<div class="keyword-cloud">';
+        keywordMatches.forEach(keyword => {
+          resultsHTML += `<span class="keyword">${keyword}</span>`;
+        });
+        resultsHTML += '</div>';
+      } else {
+        resultsHTML += '<p>No strong matches found for your brand values. Consider incorporating them more into your content.</p>';
+      }
+      
+      resultsHTML += '<h4>Tone of Voice:</h4>';
+      if (toneMatch) {
+        resultsHTML += `<p>Your content successfully matches your intended ${toneOfVoice} tone.</p>`;
+      } else {
+        resultsHTML += `<p>Your content may not fully align with your intended ${toneOfVoice} tone. Consider adjusting your language to better match this tone.</p>`;
+      }
+      
+      resultsHTML += '<h4>Recommendations:</h4><ul>';
+      resultsHTML += '<li>Consistently use your brand values as themes in your content.</li>';
+      resultsHTML += `<li>Maintain a ${toneOfVoice} tone across all platforms.</li>`;
+      resultsHTML += '<li>Regularly review and update your brand voice guidelines.</li>';
+      resultsHTML += '<li>Train your team on your brand voice to ensure consistency.</li>';
+      resultsHTML += '</ul>';
+      
+      consistencyResults.innerHTML = resultsHTML;
+      resultsSection.style.display = 'block';
+    }
+  </script>
+</body></html>

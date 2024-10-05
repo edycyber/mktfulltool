@@ -1,0 +1,300 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/brand-mention-tracker">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Mention Tracker | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .tool-container {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  #results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .mention {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .mention-source {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .mention-date {
+    color: #777;
+    font-size: 0.9em;
+  }
+  
+  .mention-sentiment {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+  
+  .sentiment-positive {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .sentiment-neutral {
+    background-color: #f39c12;
+    color: white;
+  }
+  
+  .sentiment-negative {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  #chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Brand Mention Tracker</h1>
+    <p>Monitor and analyze your brand mentions across the web</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#brand-seo">Brand SEO Tools</a></li>
+      <li><a href="/seo-guide#social-media-seo">Social Media SEO</a></li>
+      <li><a href="/seo-guide#ad-seo">Ad SEO</a></li>
+      <li><a href="/seo-guide#web-search-seo">Web Search SEO</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="tool-container">
+      <h2>Track Your Brand Mentions</h2>
+      <form id="brandMentionForm">
+        <input type="text" id="brandName" placeholder="Enter your brand name" required>
+        <select id="timeFrame">
+          <option value="day">Last 24 hours</option>
+          <option value="week">Last 7 days</option>
+          <option value="month">Last 30 days</option>
+        </select>
+        <button type="submit">Track Mentions</button>
+      </form>
+    </section>
+    
+    <section id="results" style="display: none;">
+      <h2>Brand Mention Results</h2>
+      <div id="mentionStats"></div>
+      <div id="chart-container">
+        <canvas id="mentionChart"></canvas>
+      </div>
+      <div id="mentionList"></div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('brandMentionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const brandName = document.getElementById('brandName').value;
+      const timeFrame = document.getElementById('timeFrame').value;
+      trackBrandMentions(brandName, timeFrame);
+    });
+
+    function trackBrandMentions(brandName, timeFrame) {
+      // In a real-world scenario, this would make an API call to a backend service
+      // For this example, we'll simulate a response
+      const resultsSection = document.getElementById('results');
+      const mentionStats = document.getElementById('mentionStats');
+      const mentionList = document.getElementById('mentionList');
+      
+      resultsSection.style.display = 'block';
+      mentionStats.innerHTML = '<p>Analyzing mentions for "' + brandName + '"...</p>';
+      mentionList.innerHTML = '';
+      
+      setTimeout(() => {
+        const totalMentions = Math.floor(Math.random() * 100) + 50;
+        const positiveMentions = Math.floor(totalMentions * (Math.random() * 0.4 + 0.3));
+        const neutralMentions = Math.floor((totalMentions - positiveMentions) * (Math.random() * 0.6 + 0.2));
+        const negativeMentions = totalMentions - positiveMentions - neutralMentions;
+        
+        mentionStats.innerHTML = `
+          <h3>Mention Statistics</h3>
+          <p><strong>Total Mentions:</strong> ${totalMentions}</p>
+          <p><strong>Positive Mentions:</strong> ${positiveMentions}</p>
+          <p><strong>Neutral Mentions:</strong> ${neutralMentions}</p>
+          <p><strong>Negative Mentions:</strong> ${negativeMentions}</p>
+        `;
+        
+        // Generate and display chart
+        generateMentionChart(positiveMentions, neutralMentions, negativeMentions);
+        
+        // Generate sample mentions
+        const sources = ['Twitter', 'Facebook', 'LinkedIn', 'News Article', 'Blog Post', 'Reddit'];
+        const sentiments = ['positive', 'neutral', 'negative'];
+        
+        for (let i = 0; i < 5; i++) {
+          const source = sources[Math.floor(Math.random() * sources.length)];
+          const sentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
+          const date = new Date(Date.now() - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000));
+          
+          const mentionHTML = `
+            <div class="mention">
+              <p class="mention-source">${source}</p>
+              <p class="mention-date">${date.toLocaleDateString()}</p>
+              <p>"${generateSampleMention(brandName, sentiment)}"</p>
+              <span class="mention-sentiment sentiment-${sentiment}">${sentiment.charAt(0).toUpperCase() + sentiment.slice(1)}</span>
+            </div>
+          `;
+          
+          mentionList.innerHTML += mentionHTML;
+        }
+      }, 1500);
+    }
+
+    function generateSampleMention(brandName, sentiment) {
+      const positiveAdjectives = ['great', 'excellent', 'amazing', 'outstanding', 'fantastic'];
+      const negativeAdjectives = ['disappointing', 'frustrating', 'poor', 'subpar', 'terrible'];
+      const neutralPhrases = ['just tried', 'recently used', 'heard about', 'came across', 'experienced'];
+      
+      let mention = '';
+      
+      switch (sentiment) {
+        case 'positive':
+          mention = `${positiveAdjectives[Math.floor(Math.random() * positiveAdjectives.length)]} experience with ${brandName}! Highly recommended.`;
+          break;
+        case 'negative':
+          mention = `${negativeAdjectives[Math.floor(Math.random() * negativeAdjectives.length)]} service from ${brandName}. Needs improvement.`;
+          break;
+        case 'neutral':
+          mention = `${neutralPhrases[Math.floor(Math.random() * neutralPhrases.length)]} ${brandName}. It was okay.`;
+          break;
+      }
+      
+      return mention;
+    }
+
+    function generateMentionChart(positive, neutral, negative) {
+      const ctx = document.getElementById('mentionChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Positive', 'Neutral', 'Negative'],
+          datasets: [{
+            data: [positive, neutral, negative],
+            backgroundColor: ['#2ecc71', '#f39c12', '#e74c3c']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Brand Mention Sentiment'
+          }
+        }
+      });
+    }
+  </script>
+</body></html>

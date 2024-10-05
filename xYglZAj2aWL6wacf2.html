@@ -1,0 +1,303 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/backlink-analyzer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backlink Analyzer | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .tool-section {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], input[type="url"], select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  #backlinkTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  #backlinkTable th, #backlinkTable td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  #backlinkTable th {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  #backlinkTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Backlink Analyzer</h1>
+    <p>Analyze your backlink profile and find new link opportunities</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#brand-seo">Brand SEO</a></li>
+      <li><a href="/seo-guide#social-media-seo">Social Media SEO</a></li>
+      <li><a href="/seo-guide#ad-seo">Ad SEO</a></li>
+      <li><a href="/seo-guide#web-search-seo">Web Search SEO</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="tool-section">
+      <h2>Analyze Your Backlinks</h2>
+      <form id="backlinkForm">
+        <input type="url" id="domainUrl" placeholder="Enter your domain (e.g., https://example.com)" required>
+        <button type="submit">Analyze Backlinks</button>
+      </form>
+      <div id="backlinkResults" class="results"></div>
+    </section>
+    
+    <section class="tool-section">
+      <h2>Backlink Profile Overview</h2>
+      <div class="chart-container">
+        <canvas id="backlinkChart"></canvas>
+      </div>
+    </section>
+    
+    <section class="tool-section">
+      <h2>Top Backlinks</h2>
+      <table id="backlinkTable">
+        <thead>
+          <tr>
+            <th>Linking Domain</th>
+            <th>Page Authority</th>
+            <th>Domain Authority</th>
+            <th>Link Type</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    
+    <section class="tool-section">
+      <h2>Find New Link Opportunities</h2>
+      <form id="opportunityForm">
+        <input type="text" id="keywords" placeholder="Enter your target keywords (comma-separated)" required>
+        <button type="submit">Find Opportunities</button>
+      </form>
+      <div id="opportunityResults" class="results"></div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('backlinkForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const url = document.getElementById('domainUrl').value;
+      analyzeBacklinks(url);
+    });
+
+    document.getElementById('opportunityForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const keywords = document.getElementById('keywords').value;
+      findLinkOpportunities(keywords);
+    });
+
+    function analyzeBacklinks(url) {
+      // In a real-world scenario, this would make an API call to a backlink analysis service
+      // For this example, we'll simulate a response
+      const resultsDiv = document.getElementById('backlinkResults');
+      resultsDiv.innerHTML = '<p>Analyzing backlinks for ' + url + '...</p>';
+      
+      setTimeout(() => {
+        const totalBacklinks = Math.floor(Math.random() * 10000) + 1000;
+        const uniqueDomains = Math.floor(totalBacklinks * 0.4);
+        const doFollow = Math.floor(totalBacklinks * 0.7);
+        const noFollow = totalBacklinks - doFollow;
+        
+        let resultsHTML = '<h3>Backlink Analysis Results</h3>';
+        resultsHTML += '<p><strong>Total Backlinks:</strong> ' + totalBacklinks.toLocaleString() + '</p>';
+        resultsHTML += '<p><strong>Unique Domains:</strong> ' + uniqueDomains.toLocaleString() + '</p>';
+        resultsHTML += '<p><strong>DoFollow Links:</strong> ' + doFollow.toLocaleString() + '</p>';
+        resultsHTML += '<p><strong>NoFollow Links:</strong> ' + noFollow.toLocaleString() + '</p>';
+        
+        resultsDiv.innerHTML = resultsHTML;
+        
+        // Update the chart
+        updateBacklinkChart(doFollow, noFollow);
+        
+        // Update the table
+        updateBacklinkTable();
+      }, 1500);
+    }
+
+    function updateBacklinkChart(doFollow, noFollow) {
+      const ctx = document.getElementById('backlinkChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['DoFollow', 'NoFollow'],
+          datasets: [{
+            data: [doFollow, noFollow],
+            backgroundColor: ['#3498db', '#e74c3c']
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Backlink Types Distribution'
+          }
+        }
+      });
+    }
+
+    function updateBacklinkTable() {
+      const tableBody = document.querySelector('#backlinkTable tbody');
+      tableBody.innerHTML = '';
+      
+      // Generate some sample data
+      const sampleDomains = [
+        'example.com',
+        'blogspot.com',
+        'wordpress.org',
+        'medium.com',
+        'linkedin.com'
+      ];
+      
+      for (let i = 0; i < 5; i++) {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = sampleDomains[i];
+        row.insertCell(1).textContent = Math.floor(Math.random() * 100);
+        row.insertCell(2).textContent = Math.floor(Math.random() * 100);
+        row.insertCell(3).textContent = Math.random() > 0.5 ? 'DoFollow' : 'NoFollow';
+      }
+    }
+
+    function findLinkOpportunities(keywords) {
+      const resultsDiv = document.getElementById('opportunityResults');
+      resultsDiv.innerHTML = '<p>Finding link opportunities for: ' + keywords + '...</p>';
+      
+      setTimeout(() => {
+        const opportunities = [
+          'Create informative content about ' + keywords + ' to attract natural backlinks',
+          'Reach out to industry blogs and offer to write guest posts',
+          'Participate in relevant online forums and communities',
+          'Create shareable infographics or data visualizations',
+          'Collaborate with influencers in your niche'
+        ];
+        
+        let resultsHTML = '<h3>Link Opportunity Suggestions</h3><ul>';
+        opportunities.forEach(opportunity => {
+          resultsHTML += '<li>' + opportunity + '</li>';
+        });
+        resultsHTML += '</ul>';
+        
+        resultsDiv.innerHTML = resultsHTML;
+      }, 1500);
+    }
+  </script>
+</body></html>

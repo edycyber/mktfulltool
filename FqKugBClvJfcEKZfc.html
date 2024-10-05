@@ -1,0 +1,148 @@
+<html><head><base href="https://websim.ai/marketing-plan-generator/">
+<title>Marketing Plan Generator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+  }
+  form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover {
+    background-color: #2980b9;
+  }
+  #result {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #downloadBtn {
+    display: none;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+  <h1>Marketing Plan Generator</h1>
+  <form id="marketingForm">
+    <label for="companyName">Company Name:</label>
+    <input type="text" id="companyName" required>
+    
+    <label for="sector">Sector:</label>
+    <input type="text" id="sector" required>
+    
+    <label for="competitors">Nearby Competitors (comma-separated):</label>
+    <textarea id="competitors" rows="3" required></textarea>
+    
+    <button type="submit">Generate Marketing Plan</button>
+  </form>
+  
+  <div id="result"></div>
+  <button id="downloadBtn">Download Marketing Plan</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const form = document.getElementById('marketingForm');
+    const result = document.getElementById('result');
+    const downloadBtn = document.getElementById('downloadBtn');
+    let marketingPlan = '';
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const companyName = document.getElementById('companyName').value;
+      const sector = document.getElementById('sector').value;
+      const competitors = document.getElementById('competitors').value.split(',').map(c => c.trim());
+      
+      generateMarketingPlan(companyName, sector, competitors);
+    });
+
+    function generateMarketingPlan(company, sector, competitors) {
+      // This is a simplified version. In a real application, you'd want to use more sophisticated analysis and possibly AI.
+      marketingPlan = `
+        <h2>Marketing Plan for ${company}</h2>
+        <h3>1. Company Overview</h3>
+        <p>${company} operates in the ${sector} sector.</p>
+        
+        <h3>2. Competitor Analysis</h3>
+        <p>Main competitors: ${competitors.join(', ')}.</p>
+        <p>To stand out, ${company} should focus on unique value propositions and exceptional customer service.</p>
+        
+        <h3>3. Target Market</h3>
+        <p>Identify key demographics interested in ${sector} products/services.</p>
+        
+        <h3>4. Marketing Strategies</h3>
+        <ul>
+          <li>Develop a strong online presence through SEO and social media marketing.</li>
+          <li>Implement a content marketing strategy to establish thought leadership in the ${sector}.</li>
+          <li>Consider partnerships or collaborations with complementary businesses.</li>
+          <li>Utilize email marketing for customer retention and lead nurturing.</li>
+        </ul>
+        
+        <h3>5. Budget Allocation</h3>
+        <p>Allocate budget across digital marketing, traditional advertising, and market research.</p>
+        
+        <h3>6. Metrics and KPIs</h3>
+        <p>Track website traffic, conversion rates, customer acquisition cost, and ROI for each marketing channel.</p>
+        
+        <h3>7. Timeline</h3>
+        <p>Implement strategies over the next 12 months, with quarterly reviews and adjustments.</p>
+      `;
+      
+      result.innerHTML = marketingPlan;
+      downloadBtn.style.display = 'block';
+    }
+
+    downloadBtn.addEventListener('click', function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.html(result, {
+        callback: function(doc) {
+          doc.save('marketing_plan.pdf');
+        },
+        x: 15,
+        y: 15,
+        width: 170,
+        windowWidth: 650
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/keyword-bid-estimator">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Bid Estimator | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .estimator-tool {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  #keywordList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #keywordList li {
+    background-color: #f0f0f0;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .remove-keyword {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Keyword Bid Estimator</h1>
+    <p>Optimize your ad spending with data-driven bid estimates</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#ad-seo">Ad SEO Tools</a></li>
+      <li><a href="/seo-guide/ad-copy-optimizer">Ad Copy Optimizer</a></li>
+      <li><a href="/seo-guide/ad-performance">Ad Performance Analyzer</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="estimator-tool">
+      <h2>Keyword Bid Estimator</h2>
+      <p>Enter your keywords and industry to get estimated bid ranges for your ad campaigns.</p>
+      
+      <form id="bidEstimatorForm">
+        <label for="keyword">Keyword:</label>
+        <input type="text" id="keyword" required>
+        
+        <label for="industry">Industry:</label>
+        <select id="industry" required>
+          <option value="">Select an industry</option>
+          <option value="technology">Technology</option>
+          <option value="finance">Finance</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="retail">Retail</option>
+          <option value="travel">Travel</option>
+          <option value="education">Education</option>
+        </select>
+        
+        <button type="submit">Add Keyword</button>
+      </form>
+      
+      <div id="keywordContainer">
+        <h3>Keywords to Estimate:</h3>
+        <ul id="keywordList"></ul>
+      </div>
+      
+      <button id="estimateBids">Estimate Bids</button>
+      
+      <div id="results" class="results" style="display:none;">
+        <h3>Estimated Bid Ranges</h3>
+        <div id="bidResults"></div>
+      </div>
+      
+      <div class="chart-container">
+        <canvas id="bidChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const keywords = [];
+    const keywordList = document.getElementById('keywordList');
+    const bidResults = document.getElementById('bidResults');
+    const results = document.getElementById('results');
+    let chart;
+
+    document.getElementById('bidEstimatorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const keyword = document.getElementById('keyword').value;
+      const industry = document.getElementById('industry').value;
+      
+      if (keyword && industry) {
+        keywords.push({ keyword, industry });
+        updateKeywordList();
+        document.getElementById('keyword').value = '';
+      }
+    });
+
+    function updateKeywordList() {
+      keywordList.innerHTML = '';
+      keywords.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${item.keyword} (${item.industry})`;
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.classList.add('remove-keyword');
+        removeButton.onclick = () => removeKeyword(index);
+        li.appendChild(removeButton);
+        keywordList.appendChild(li);
+      });
+    }
+
+    function removeKeyword(index) {
+      keywords.splice(index, 1);
+      updateKeywordList();
+    }
+
+    document.getElementById('estimateBids').addEventListener('click', function() {
+      if (keywords.length === 0) {
+        alert('Please add at least one keyword before estimating bids.');
+        return;
+      }
+      
+      estimateBids();
+    });
+
+    function estimateBids() {
+      results.style.display = 'block';
+      bidResults.innerHTML = '';
+      const labels = [];
+      const minData = [];
+      const maxData = [];
+
+      keywords.forEach(item => {
+        const minBid = (Math.random() * 2 + 0.5).toFixed(2);
+        const maxBid = (parseFloat(minBid) + Math.random() * 3).toFixed(2);
+        
+        const resultItem = document.createElement('p');
+        resultItem.innerHTML = `<strong>${item.keyword}</strong> (${item.industry}): $${minBid} - $${maxBid}`;
+        bidResults.appendChild(resultItem);
+
+        labels.push(item.keyword);
+        minData.push(parseFloat(minBid));
+        maxData.push(parseFloat(maxBid));
+      });
+
+      updateChart(labels, minData, maxData);
+    }
+
+    function updateChart(labels, minData, maxData) {
+      if (chart) {
+        chart.destroy();
+      }
+
+      const ctx = document.getElementById('bidChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Minimum Bid',
+              data: minData,
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Maximum Bid',
+              data: maxData,
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Bid Amount ($)'
+              }
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Estimated Keyword Bid Ranges'
+            },
+            legend: {
+              display: true,
+              position: 'top'
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body></html>

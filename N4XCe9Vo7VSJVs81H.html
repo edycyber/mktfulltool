@@ -1,0 +1,258 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/social-profile-optimizer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Profile Optimizer | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .optimizer-tool {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+  }
+  
+  .progress {
+    width: 0;
+    height: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .tip {
+    background-color: #fff4e6;
+    border-left: 4px solid #ffa94d;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Social Profile Optimizer</h1>
+    <p>Optimize your social media profiles for better search visibility</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#social-media-seo">Social Media SEO Tools</a></li>
+      <li><a href="/seo-guide/hashtag-analyzer">Hashtag Analyzer</a></li>
+      <li><a href="/seo-guide/social-content-calendar">Social Media Content Calendar</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="optimizer-tool">
+      <h2>Profile Optimization Tool</h2>
+      <form id="profileOptimizerForm">
+        <label for="platform">Select Social Media Platform:</label>
+        <select id="platform" required>
+          <option value="">Choose a platform</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="twitter">Twitter</option>
+          <option value="facebook">Facebook</option>
+          <option value="instagram">Instagram</option>
+        </select>
+        
+        <label for="profileName">Profile Name:</label>
+        <input type="text" id="profileName" required>
+        
+        <label for="profileBio">Profile Bio/Description:</label>
+        <textarea id="profileBio" rows="4" required></textarea>
+        
+        <label for="keywords">Target Keywords (comma-separated):</label>
+        <input type="text" id="keywords" placeholder="e.g., digital marketing, SEO, social media">
+        
+        <button type="submit">Optimize Profile</button>
+      </form>
+      
+      <div id="optimizationResults" class="results" style="display: none;">
+        <h3>Optimization Results</h3>
+        <div class="progress-bar">
+          <div id="optimizationScore" class="progress"></div>
+        </div>
+        <p id="scoreText"></p>
+        <div id="suggestions"></div>
+      </div>
+    </section>
+    
+    <section class="tip">
+      <h3>Pro Tip:</h3>
+      <p>Consistently use your optimized profile across all your social media platforms to strengthen your brand identity and improve search visibility.</p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('profileOptimizerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const platform = document.getElementById('platform').value;
+      const profileName = document.getElementById('profileName').value;
+      const profileBio = document.getElementById('profileBio').value;
+      const keywords = document.getElementById('keywords').value;
+      
+      optimizeProfile(platform, profileName, profileBio, keywords);
+    });
+
+    function optimizeProfile(platform, profileName, profileBio, keywords) {
+      // In a real-world scenario, this would make an API call to a backend service
+      // For this example, we'll simulate an optimization process
+      const resultsDiv = document.getElementById('optimizationResults');
+      const scoreBar = document.getElementById('optimizationScore');
+      const scoreText = document.getElementById('scoreText');
+      const suggestionsDiv = document.getElementById('suggestions');
+      
+      resultsDiv.style.display = 'block';
+      scoreBar.style.width = '0%';
+      scoreText.textContent = 'Analyzing your profile...';
+      suggestionsDiv.innerHTML = '';
+      
+      setTimeout(() => {
+        const score = Math.floor(Math.random() * 41) + 60; // Random score between 60-100
+        scoreBar.style.width = score + '%';
+        scoreText.textContent = `Your ${platform} profile optimization score: ${score}/100`;
+        
+        const suggestions = [
+          'Use more industry-specific keywords in your bio',
+          'Ensure your profile name is consistent across all platforms',
+          'Add a clear call-to-action in your bio',
+          'Use relevant hashtags in your posts',
+          'Link to your website or other social profiles',
+          'Use a high-quality, professional profile picture',
+          'Optimize your profile for mobile viewing'
+        ];
+        
+        let suggestionsHTML = '<h4>Optimization Suggestions:</h4><ul>';
+        for (let i = 0; i < 3; i++) {
+          const randomIndex = Math.floor(Math.random() * suggestions.length);
+          suggestionsHTML += '<li>' + suggestions[randomIndex] + '</li>';
+          suggestions.splice(randomIndex, 1);
+        }
+        suggestionsHTML += '</ul>';
+        
+        suggestionsDiv.innerHTML = suggestionsHTML;
+        
+        // Add platform-specific advice
+        const platformAdvice = getPlatformSpecificAdvice(platform);
+        suggestionsDiv.innerHTML += `<h4>${platform} Specific Advice:</h4><p>${platformAdvice}</p>`;
+      }, 1500);
+    }
+
+    function getPlatformSpecificAdvice(platform) {
+      switch (platform) {
+        case 'linkedin':
+          return 'Focus on professional achievements and skills. Use industry-specific keywords in your headline and summary.';
+        case 'twitter':
+          return 'Keep your bio concise and use relevant hashtags. Pin an important tweet to showcase your best content.';
+        case 'facebook':
+          return 'Utilize the "About" section fully. Add milestones and showcase your company\'s story.';
+        case 'instagram':
+          return 'Use emojis to make your bio visually appealing. Include a link to your latest content or landing page.';
+        default:
+          return 'Tailor your profile to highlight your unique value proposition and engage with your target audience.';
+      }
+    }
+  </script>
+</body></html>

@@ -1,0 +1,310 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide#ad-performance">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Performance - SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .ad-performance-tool {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  th, td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  th {
+    background-color: var(--primary-color);
+    color: white;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Ad Performance - SEO Guide</h1>
+    <p>Optimize your ad campaigns for better ROI</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="#ad-performance">Ad Performance</a></li>
+      <li><a href="#best-practices">Best Practices</a></li>
+      <li><a href="#case-studies">Case Studies</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section id="ad-performance">
+      <h2>Ad Performance Analyzer</h2>
+      <p>Use this tool to analyze and optimize your ad campaigns across different platforms.</p>
+      
+      <div class="ad-performance-tool">
+        <h3>Ad Campaign Analysis</h3>
+        <form id="adPerformanceForm">
+          <div>
+            <label for="adPlatform">Ad Platform:</label>
+            <select id="adPlatform" required>
+              <option value="google-ads">Google Ads</option>
+              <option value="facebook-ads">Facebook Ads</option>
+              <option value="linkedin-ads">LinkedIn Ads</option>
+              <option value="twitter-ads">Twitter Ads</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="adCopy">Ad Copy:</label>
+            <textarea id="adCopy" rows="4" placeholder="Enter your ad copy" required></textarea>
+          </div>
+          
+          <div>
+            <label for="adBudget">Daily Budget:</label>
+            <input type="number" id="adBudget" placeholder="Enter your daily budget" required min="1">
+          </div>
+          
+          <div>
+            <label for="targetAudience">Target Audience:</label>
+            <input type="text" id="targetAudience" placeholder="Describe your target audience" required>
+          </div>
+          
+          <button type="submit">Analyze Ad Performance</button>
+        </form>
+        
+        <div id="adPerformanceResults" class="results"></div>
+        <div class="chart-container">
+          <canvas id="adPerformanceChart"></canvas>
+        </div>
+      </div>
+    </section>
+    
+    <section id="best-practices">
+      <h2>Ad Performance Best Practices</h2>
+      <ul>
+        <li>Define clear campaign objectives</li>
+        <li>Conduct thorough audience research</li>
+        <li>Create compelling ad copy and visuals</li>
+        <li>Implement proper tracking and analytics</li>
+        <li>Continuously test and optimize your ads</li>
+        <li>Monitor and adjust your budget allocation</li>
+        <li>Leverage retargeting strategies</li>
+        <li>Ensure landing page relevance and quality</li>
+      </ul>
+    </section>
+    
+    <section id="case-studies">
+      <h2>Ad Performance Case Studies</h2>
+      <div class="case-study">
+        <h3>Case Study 1: E-commerce Success with Google Ads</h3>
+        <p>An online retailer increased their ROI by 150% using targeted Google Shopping campaigns and search ads. Key strategies included:</p>
+        <ul>
+          <li>Optimizing product feed for Google Merchant Center</li>
+          <li>Implementing negative keywords to reduce wasted spend</li>
+          <li>Creating ad groups based on product categories</li>
+          <li>Utilizing responsive search ads for improved performance</li>
+        </ul>
+      </div>
+      
+      <div class="case-study">
+        <h3>Case Study 2: B2B Lead Generation with LinkedIn Ads</h3>
+        <p>A SaaS company reduced their cost per lead by 40% using LinkedIn's targeting capabilities. Their approach included:</p>
+        <ul>
+          <li>Leveraging job title and company size targeting</li>
+          <li>Creating content-rich sponsored updates</li>
+          <li>Implementing lead gen forms for easy conversions</li>
+          <li>A/B testing ad copy and visuals for optimal performance</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('adPerformanceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      analyzeAdPerformance();
+    });
+
+    function analyzeAdPerformance() {
+      const platform = document.getElementById('adPlatform').value;
+      const adCopy = document.getElementById('adCopy').value;
+      const budget = parseFloat(document.getElementById('adBudget').value);
+      const targetAudience = document.getElementById('targetAudience').value;
+      const resultsDiv = document.getElementById('adPerformanceResults');
+      
+      // Simulated ad performance analysis
+      const impressions = Math.floor(Math.random() * 10000) + 5000;
+      const clicks = Math.floor(impressions * (Math.random() * 0.05 + 0.01));
+      const conversions = Math.floor(clicks * (Math.random() * 0.1 + 0.05));
+      const ctr = (clicks / impressions * 100).toFixed(2);
+      const cpc = (budget / clicks).toFixed(2);
+      const conversionRate = (conversions / clicks * 100).toFixed(2);
+      const roi = ((conversions * 50 - budget) / budget * 100).toFixed(2); // Assuming $50 value per conversion
+      
+      let resultsHTML = `<h4>Ad Performance Analysis for ${platform}</h4>`;
+      resultsHTML += `<p><strong>Target Audience:</strong> ${targetAudience}</p>`;
+      resultsHTML += `<p><strong>Daily Budget:</strong> $${budget}</p>`;
+      resultsHTML += `<table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>Estimated Daily Impressions</td><td>${impressions}</td></tr>
+        <tr><td>Estimated Daily Clicks</td><td>${clicks}</td></tr>
+        <tr><td>Estimated Daily Conversions</td><td>${conversions}</td></tr>
+        <tr><td>Estimated CTR</td><td>${ctr}%</td></tr>
+        <tr><td>Estimated CPC</td><td>$${cpc}</td></tr>
+        <tr><td>Estimated Conversion Rate</td><td>${conversionRate}%</td></tr>
+        <tr><td>Estimated ROI</td><td>${roi}%</td></tr>
+      </table>`;
+      
+      resultsHTML += '<h4>Recommendations:</h4><ul>';
+      if (ctr < 2) {
+        resultsHTML += '<li>Consider revising your ad copy to improve click-through rate</li>';
+      }
+      if (conversionRate < 5) {
+        resultsHTML += '<li>Review your landing page to ensure it aligns with your ad message</li>';
+      }
+      if (roi < 100) {
+        resultsHTML += '<li>Analyze your targeting options to reach a more relevant audience</li>';
+      }
+      resultsHTML += '</ul>';
+      
+      resultsDiv.innerHTML = resultsHTML;
+      
+      // Create chart
+      const ctx = document.getElementById('adPerformanceChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Impressions', 'Clicks', 'Conversions'],
+          datasets: [{
+            label: 'Ad Performance Metrics',
+            data: [impressions, clicks, conversions],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(255, 206, 86, 0.8)',
+            ],
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              type: 'logarithmic'
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body></html>

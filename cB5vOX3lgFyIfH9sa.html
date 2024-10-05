@@ -1,0 +1,208 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/keyword-research">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Research Tool | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  form {
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  #results {
+    margin-top: 2rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  th {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .loading {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  
+  .tips {
+    background-color: #e8f4fd;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Keyword Research Tool</h1>
+    <p>Discover high-value keywords for your website content</p>
+  </header>
+  
+  <main>
+    <form id="keywordForm">
+      <label for="seedKeyword">Enter a seed keyword:</label>
+      <input type="text" id="seedKeyword" required placeholder="e.g., digital marketing">
+      
+      <label for="industry">Select your industry:</label>
+      <select id="industry">
+        <option value="general">General</option>
+        <option value="technology">Technology</option>
+        <option value="health">Health & Wellness</option>
+        <option value="finance">Finance</option>
+        <option value="education">Education</option>
+        <option value="ecommerce">E-commerce</option>
+      </select>
+      
+      <button type="submit">Find Keywords</button>
+    </form>
+    
+    <div id="results"></div>
+    
+    <div class="tips">
+      <h3>Keyword Research Tips</h3>
+      <ul>
+        <li>Focus on long-tail keywords for less competition and higher conversion rates.</li>
+        <li>Consider the search intent behind keywords (informational, navigational, transactional).</li>
+        <li>Use a mix of broad and specific keywords in your content strategy.</li>
+        <li>Analyze keyword difficulty and search volume to prioritize your efforts.</li>
+        <li>Keep an eye on trending topics and seasonal keywords in your industry.</li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('keywordForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const seedKeyword = document.getElementById('seedKeyword').value;
+      const industry = document.getElementById('industry').value;
+      findKeywords(seedKeyword, industry);
+    });
+
+    function findKeywords(seedKeyword, industry) {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '<p class="loading">Analyzing keywords...</p>';
+      
+      // Simulate API call with setTimeout
+      setTimeout(() => {
+        // Generate mock data based on seed keyword and industry
+        const keywords = generateKeywords(seedKeyword, industry);
+        
+        if (keywords.length === 0) {
+          resultsDiv.innerHTML = '<p class="error">No keywords found. Please try a different seed keyword.</p>';
+          return;
+        }
+        
+        let tableHTML = '<h2>Keyword Suggestions</h2>';
+        tableHTML += '<table><thead><tr><th>Keyword</th><th>Search Volume</th><th>Difficulty</th><th>CPC</th></tr></thead><tbody>';
+        
+        keywords.forEach(keyword => {
+          tableHTML += `<tr>
+            <td>${keyword.phrase}</td>
+            <td>${keyword.volume}</td>
+            <td>${keyword.difficulty}/100</td>
+            <td>$${keyword.cpc.toFixed(2)}</td>
+          </tr>`;
+        });
+        
+        tableHTML += '</tbody></table>';
+        resultsDiv.innerHTML = tableHTML;
+      }, 1500);
+    }
+
+    function generateKeywords(seedKeyword, industry) {
+      const keywords = [];
+      const variations = [
+        'best', 'top', 'affordable', 'how to', 'guide', 'tips', 'strategies',
+        industry, `${industry} ${seedKeyword}`, `${seedKeyword} for ${industry}`
+      ];
+      
+      variations.forEach(variation => {
+        const phrase = `${variation} ${seedKeyword}`.trim();
+        keywords.push({
+          phrase: phrase,
+          volume: Math.floor(Math.random() * 10000) + 100,
+          difficulty: Math.floor(Math.random() * 100),
+          cpc: Math.random() * 5 + 0.1
+        });
+      });
+      
+      return keywords.sort((a, b) => b.volume - a.volume);
+    }
+  </script>
+</body></html>

@@ -1,0 +1,448 @@
+<html><head><base href="https://www.aimovieclub.com">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing Toolkit - Customizable Templates</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .template-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .template-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .template-preview {
+    width: 100%;
+    height: 200px;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .template-info {
+    padding: 1rem;
+  }
+  
+  .template-info h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+  
+  .btn {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #27ae60;
+  }
+  
+  #customizer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .customizer-content {
+    background-color: white;
+    width: 80%;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+  
+  .customizer-preview {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    min-height: 300px;
+  }
+  
+  .customizer-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  #emailTemplate {
+    white-space: pre-wrap;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  #draggableText {
+    cursor: move;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Digital Marketing Toolkit</h1>
+    <h2>Customizable Templates</h2>
+  </header>
+  
+  <main>
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-preview">
+          <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="#3498db"/>
+            <text x="50" y="50" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">Social Media Post</text>
+          </svg>
+        </div>
+        <div class="template-info">
+          <h3>Social Media Post Template</h3>
+          <p>Create eye-catching social media posts with this customizable template.</p>
+          <a href="#" class="btn" onclick="openCustomizer('social')">Customize</a>
+        </div>
+      </div>
+      
+      <div class="template-card">
+        <div class="template-preview">
+          <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="#2ecc71"/>
+            <text x="50" y="50" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">Email Newsletter</text>
+          </svg>
+        </div>
+        <div class="template-info">
+          <h3>Cold Email Template</h3>
+          <p>Design professional cold emails with this versatile template.</p>
+          <a href="#" class="btn" onclick="openCustomizer('email')">Customize</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <div id="customizer">
+    <div class="customizer-content">
+      <h2>Template Customizer</h2>
+      <div class="customizer-preview" id="customizer-preview"></div>
+      <div class="customizer-controls" id="customizer-controls"></div>
+      <button class="btn" onclick="closeCustomizer()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    let currentTemplate = '';
+
+    const socialSuggestions = [
+      "Check out our latest product launch! 🚀 #NewProduct #Exciting",
+      "Monday motivation: Believe you can and you're halfway there. #MondayMotivation",
+      "We're excited to announce our partnership with @PartnerCompany! #Collaboration",
+      "Behind the scenes look at our team in action. #TeamWork #BehindTheScenes",
+      "Customer spotlight: See how @ClientName achieved success with our solution. #CustomerSuccess"
+    ];
+
+    const emailSuggestions = [
+      {
+        subject: "Boost Your Marketing ROI with AI-Powered Strategies",
+        body: "I noticed that [Prospect's Company] has been expanding its digital presence. Our AI-driven marketing tools have helped similar companies increase their marketing ROI by up to 30%. Would you be interested in a quick demo?"
+      },
+      {
+        subject: "Streamline Your Content Creation Process",
+        body: "As a fellow marketer, I understand the challenges of consistent content creation. Our AI content generator has helped businesses like yours save 10+ hours per week on content creation. How does your team currently handle this?"
+      },
+      {
+        subject: "Personalized Customer Experiences at Scale",
+        body: "In today's market, personalization is key. Our AI solution has helped companies achieve a 25% increase in customer engagement through hyper-personalized experiences. I'd love to show you how this could work for [Prospect's Company]."
+      }
+    ];
+
+    function openCustomizer(template) {
+      currentTemplate = template;
+      document.getElementById('customizer').style.display = 'block';
+      updateControls();
+      updatePreview();
+    }
+
+    function closeCustomizer() {
+      document.getElementById('customizer').style.display = 'none';
+    }
+
+    function updateControls() {
+      const controls = document.getElementById('customizer-controls');
+      controls.innerHTML = '';
+
+      if (currentTemplate === 'social') {
+        controls.innerHTML = `
+          <div>
+            <label for="textInput">Text Content:</label>
+            <input type="text" id="textInput" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="colorInput">Background Color:</label>
+            <input type="color" id="colorInput" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="fontSelect">Font:</label>
+            <select id="fontSelect" onchange="updatePreview()">
+              <option value="Arial">Arial</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Helvetica">Helvetica</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+          </div>
+          <div>
+            <label for="backgroundImageUrl">Background Image URL:</label>
+            <input type="url" id="backgroundImageUrl" onchange="updatePreview()">
+          </div>
+          <div>
+            <button onclick="getSocialSuggestion()">Get Post Suggestion</button>
+          </div>
+          <div>
+            <button onclick="downloadImage()">Download Image</button>
+          </div>
+        `;
+      } else if (currentTemplate === 'email') {
+        controls.innerHTML = `
+          <div>
+            <label for="emailSubject">Email Subject:</label>
+            <input type="text" id="emailSubject" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="recipientName">Recipient's Name:</label>
+            <input type="text" id="recipientName" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="companyName">Your Company Name:</label>
+            <input type="text" id="companyName" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="senderName">Your Name:</label>
+            <input type="text" id="senderName" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="senderPosition">Your Position:</label>
+            <input type="text" id="senderPosition" onchange="updatePreview()">
+          </div>
+          <div>
+            <label for="senderContact">Your Contact Info:</label>
+            <input type="text" id="senderContact" onchange="updatePreview()">
+          </div>
+          <div>
+            <button onclick="getEmailSuggestion()">Get Email Suggestion</button>
+          </div>
+          <div>
+            <button onclick="copyEmailTemplate()">Copy Email Template</button>
+          </div>
+        `;
+      }
+    }
+
+    function getSocialSuggestion() {
+      const suggestion = socialSuggestions[Math.floor(Math.random() * socialSuggestions.length)];
+      document.getElementById('textInput').value = suggestion;
+      updatePreview();
+    }
+
+    function getEmailSuggestion() {
+      const suggestion = emailSuggestions[Math.floor(Math.random() * emailSuggestions.length)];
+      document.getElementById('emailSubject').value = suggestion.subject;
+      document.getElementById('recipientName').value = '[First Name]';
+      updatePreview();
+      
+      const emailTemplate = document.getElementById('emailTemplate');
+      emailTemplate.textContent = `Subject: ${suggestion.subject}
+
+Hi [First Name],
+
+${suggestion.body}
+
+Looking forward to connecting,
+[Your Name]
+[Your Position]
+[Your Company]
+[Your Contact Info]`;
+    }
+
+    function updatePreview() {
+      const preview = document.getElementById('customizer-preview');
+      
+      if (currentTemplate === 'social') {
+        const text = document.getElementById('textInput').value || 'Sample Text';
+        const color = document.getElementById('colorInput').value;
+        const font = document.getElementById('fontSelect').value;
+        const backgroundImageUrl = document.getElementById('backgroundImageUrl').value;
+
+        let content = `
+          <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="bg-image" patternUnits="userSpaceOnUse" width="500" height="500">
+                <image href="${backgroundImageUrl}" x="0" y="0" width="500" height="500"/>
+              </pattern>
+            </defs>
+            <rect width="500" height="500" fill="${backgroundImageUrl ? 'url(#bg-image)' : color}"/>
+            <text id="draggableText" x="250" y="250" font-family="${font}" font-size="36" fill="white" text-anchor="middle" dy=".3em">${text}</text>
+          </svg>
+        `;
+        
+        preview.innerHTML = content;
+        makeDraggable(document.getElementById('draggableText'));
+      } else if (currentTemplate === 'email') {
+        const subject = document.getElementById('emailSubject').value || '[Personalized] [Your Company/Product] Can Help You [Achieve X or Solve Y]';
+        const recipientName = document.getElementById('recipientName').value || '[First Name]';
+        const companyName = document.getElementById('companyName').value || '[Your Company]';
+        const senderName = document.getElementById('senderName').value || '[Your Name]';
+        const senderPosition = document.getElementById('senderPosition').value || '[Your Position]';
+        const senderContact = document.getElementById('senderContact').value || '[Your Contact Info]';
+
+        const emailContent = `Subject: ${subject}
+
+Hi ${recipientName},
+
+I hope you're doing well! I've been following [Prospect's Company] and noticed that [relevant observation about their industry, recent news, or pain point].
+
+At ${companyName}, we specialize in helping businesses like yours [specific benefit you provide, e.g., increase productivity, streamline processes, boost revenue, etc.]. For example, we helped [similar company or industry] achieve [specific results, metric, or improvement], and I believe we could do something similar for you.
+
+Here's a brief resource/case study ([link]) that shows how we helped others solve [pain point].
+
+If you're open to discussing how we could support [Prospect's Company] in [achieving specific goal], I'd love to set up a quick 10-15 minute call.
+
+How does [suggest two time slots] sound?
+
+Looking forward to hearing from you!
+
+Best regards,
+${senderName}
+${senderPosition}
+${companyName}
+${senderContact}`;
+
+        preview.innerHTML = `<pre id="emailTemplate">${emailContent}</pre>`;
+      }
+    }
+
+    function makeDraggable(element) {
+      let isDragging = false;
+      let currentX;
+      let currentY;
+      let initialX;
+      let initialY;
+      let xOffset = 0;
+      let yOffset = 0;
+
+      element.addEventListener("mousedown", dragStart);
+      element.addEventListener("mouseup", dragEnd);
+      element.addEventListener("mousemove", drag);
+
+      function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+
+        if (e.target === element) {
+          isDragging = true;
+        }
+      }
+
+      function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+
+        isDragging = false;
+      }
+
+      function drag(e) {
+        if (isDragging) {
+          e.preventDefault();
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+
+          xOffset = currentX;
+          yOffset = currentY;
+
+          setTranslate(currentX, currentY, element);
+        }
+      }
+
+      function setTranslate(xPos, yPos, el) {
+        el.setAttribute("transform", `translate(${xPos}, ${yPos})`);
+      }
+    }
+
+    function downloadImage() {
+      const svg = document.querySelector('svg');
+      const serializer = new XMLSerializer();
+      const source = serializer.serializeToString(svg);
+      const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+      
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = "social_media_post.svg";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
+
+    function copyEmailTemplate() {
+      const emailTemplate = document.getElementById('emailTemplate');
+      const range = document.createRange();
+      range.selectNode(emailTemplate);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      alert('Email template copied to clipboard!');
+    }
+  </script>
+  
+  <div style="text-align: center; margin-top: 2rem;">
+    <img src="https://aimovieclub.com/wp-content/uploads/2023/04/AI-Movie-Club-Logo-1.png" alt="AI Movie Club Logo" width="200" height="200">
+    <br>
+    <a href="https://www.aimovieclub.com" class="btn" style="margin-top: 1rem;" target="_blank" rel="noopener noreferrer">Visit AI Movie Club</a>
+  </div>
+</body></html>

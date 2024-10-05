@@ -1,0 +1,273 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/hashtag-analyzer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hashtag Analyzer | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .hashtag-form {
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .hashtag-card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .hashtag-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-name {
+    font-weight: bold;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Hashtag Analyzer</h1>
+    <p>Find and analyze the best hashtags for your social media content</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#social-media-seo">Social Media SEO Tools</a></li>
+      <li><a href="/seo-guide/social-profile-optimizer">Social Profile Optimizer</a></li>
+      <li><a href="/seo-guide/social-content-calendar">Social Media Content Calendar</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="hashtag-form">
+      <h2>Analyze Hashtags</h2>
+      <form id="hashtagForm">
+        <input type="text" id="hashtags" placeholder="Enter hashtags (comma-separated, e.g., #marketing, #seo, #socialmedia)" required>
+        <select id="platform">
+          <option value="instagram">Instagram</option>
+          <option value="twitter">Twitter</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+        <button type="submit">Analyze Hashtags</button>
+      </form>
+    </section>
+    
+    <section id="results" class="results" style="display: none;">
+      <h2>Analysis Results</h2>
+      <div id="hashtagResults"></div>
+      <div class="chart-container">
+        <canvas id="popularityChart"></canvas>
+      </div>
+    </section>
+    
+    <section class="tips">
+      <h2>Hashtag Best Practices</h2>
+      <ul>
+        <li>Use a mix of popular and niche hashtags</li>
+        <li>Keep hashtags relevant to your content</li>
+        <li>Don't overuse hashtags - quality over quantity</li>
+        <li>Research trending hashtags in your industry</li>
+        <li>Create and promote your own branded hashtags</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('hashtagForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const hashtags = document.getElementById('hashtags').value;
+      const platform = document.getElementById('platform').value;
+      analyzeHashtags(hashtags, platform);
+    });
+
+    function analyzeHashtags(hashtags, platform) {
+      // In a real-world scenario, this would make an API call to a backend service
+      // For this example, we'll simulate a response
+      const hashtagArray = hashtags.split(',').map(tag => tag.trim());
+      const resultsDiv = document.getElementById('hashtagResults');
+      resultsDiv.innerHTML = '<p>Analyzing hashtags for ' + platform + '...</p>';
+      
+      setTimeout(() => {
+        let resultsHTML = '';
+        let labels = [];
+        let popularityData = [];
+        
+        hashtagArray.forEach(hashtag => {
+          const popularity = Math.floor(Math.random() * 1000000);
+          const posts = Math.floor(Math.random() * 5000000);
+          const engagement = (Math.random() * 5 + 1).toFixed(2);
+          
+          resultsHTML += `
+            <div class="hashtag-card">
+              <h3>${hashtag}</h3>
+              <div class="metric">
+                <span class="metric-name">Popularity Score:</span>
+                <span>${popularity.toLocaleString()}</span>
+              </div>
+              <div class="metric">
+                <span class="metric-name">Total Posts:</span>
+                <span>${posts.toLocaleString()}</span>
+              </div>
+              <div class="metric">
+                <span class="metric-name">Avg. Engagement Rate:</span>
+                <span>${engagement}%</span>
+              </div>
+            </div>
+          `;
+          
+          labels.push(hashtag);
+          popularityData.push(popularity);
+        });
+        
+        resultsDiv.innerHTML = resultsHTML;
+        document.getElementById('results').style.display = 'block';
+        
+        // Create popularity chart
+        const ctx = document.getElementById('popularityChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Popularity Score',
+              data: popularityData,
+              backgroundColor: 'rgba(52, 152, 219, 0.6)',
+              borderColor: 'rgba(52, 152, 219, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Popularity Score'
+                }
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: 'Hashtags'
+                }
+              }
+            }
+          }
+        });
+      }, 1500);
+    }
+  </script>
+</body></html>

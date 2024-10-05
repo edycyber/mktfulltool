@@ -1,0 +1,296 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/brand-name-optimizer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Name Optimizer | SEO Guide | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  nav {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin: 0.5rem;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: var(--primary-color);
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  .optimizer-tool {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  .results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f4fd;
+    border-radius: 3px;
+  }
+  
+  .score-meter {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  
+  .score-fill {
+    height: 100%;
+    background-color: var(--secondary-color);
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .suggestions {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .suggestions li {
+    margin-bottom: 0.5rem;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  .suggestions li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Brand Name Optimizer</h1>
+    <p>Analyze and optimize your brand name for better search visibility</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="/seo-guide">SEO Guide Home</a></li>
+      <li><a href="/seo-guide#brand-seo">Brand SEO Tools</a></li>
+      <li><a href="/seo-guide/brand-voice-checker">Brand Voice Checker</a></li>
+      <li><a href="/seo-guide/brand-mention-tracker">Brand Mention Tracker</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="optimizer-tool">
+      <h2>Brand Name Analyzer</h2>
+      <p>Enter your brand name below to receive an SEO analysis and optimization suggestions.</p>
+      <form id="brandNameForm">
+        <input type="text" id="brandName" placeholder="Enter your brand name" required>
+        <select id="industry">
+          <option value="">Select your industry</option>
+          <option value="tech">Technology</option>
+          <option value="fashion">Fashion</option>
+          <option value="food">Food & Beverage</option>
+          <option value="health">Health & Wellness</option>
+          <option value="finance">Finance</option>
+          <option value="other">Other</option>
+        </select>
+        <button type="submit">Analyze Brand Name</button>
+      </form>
+      <div id="results" class="results" style="display: none;">
+        <h3>Analysis Results</h3>
+        <p>SEO Score: <span id="seoScore"></span>/100</p>
+        <div class="score-meter">
+          <div id="scoreFill" class="score-fill"></div>
+        </div>
+        <h4>Optimization Suggestions:</h4>
+        <ul id="suggestions" class="suggestions"></ul>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Why Optimize Your Brand Name?</h2>
+      <p>Your brand name is often the first point of contact between your business and potential customers. Optimizing it for search engines can significantly improve your online visibility and help you stand out in a crowded digital landscape.</p>
+      <h3>Benefits of Brand Name Optimization:</h3>
+      <ul>
+        <li>Improved search engine rankings</li>
+        <li>Increased brand recognition</li>
+        <li>Better alignment with your target audience</li>
+        <li>Enhanced memorability and recall</li>
+        <li>Stronger domain name potential</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('brandNameForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const brandName = document.getElementById('brandName').value;
+      const industry = document.getElementById('industry').value;
+      analyzeBrandName(brandName, industry);
+    });
+
+    function analyzeBrandName(brandName, industry) {
+      // In a real-world scenario, this would make an API call to a backend service
+      // For this example, we'll simulate a response
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.style.display = 'none';
+      
+      setTimeout(() => {
+        const score = calculateScore(brandName, industry);
+        const suggestions = generateSuggestions(brandName, industry, score);
+        
+        document.getElementById('seoScore').textContent = score;
+        document.getElementById('scoreFill').style.width = `${score}%`;
+        
+        const suggestionsList = document.getElementById('suggestions');
+        suggestionsList.innerHTML = '';
+        suggestions.forEach(suggestion => {
+          const li = document.createElement('li');
+          li.textContent = suggestion;
+          suggestionsList.appendChild(li);
+        });
+        
+        resultsDiv.style.display = 'block';
+      }, 1500);
+    }
+
+    function calculateScore(brandName, industry) {
+      let score = 70; // Base score
+      
+      // Length factor
+      if (brandName.length < 4) score -= 10;
+      else if (brandName.length > 15) score -= 15;
+      else if (brandName.length >= 6 && brandName.length <= 10) score += 10;
+      
+      // Uniqueness factor (simplified)
+      if (brandName.toLowerCase().includes('the') || brandName.toLowerCase().includes('and')) score -= 5;
+      
+      // Industry relevance (simplified)
+      const industryKeywords = {
+        'tech': ['tech', 'digital', 'smart', 'cyber', 'web'],
+        'fashion': ['style', 'chic', 'trend', 'vogue', 'couture'],
+        'food': ['taste', 'flavor', 'cuisine', 'gourmet', 'delicious'],
+        'health': ['wellness', 'vital', 'fit', 'natural', 'healthy'],
+        'finance': ['capital', 'wealth', 'invest', 'money', 'finance']
+      };
+      
+      if (industry && industryKeywords[industry]) {
+        const relevantKeywords = industryKeywords[industry];
+        if (relevantKeywords.some(keyword => brandName.toLowerCase().includes(keyword))) {
+          score += 15;
+        }
+      }
+      
+      // Ensure score is within 0-100 range
+      return Math.min(Math.max(score, 0), 100);
+    }
+
+    function generateSuggestions(brandName, industry, score) {
+      const suggestions = [];
+      
+      if (score < 60) {
+        suggestions.push("Consider revising your brand name for better SEO performance.");
+      }
+      
+      if (brandName.length < 4) {
+        suggestions.push("Your brand name is very short. Consider a slightly longer name for better recognition.");
+      } else if (brandName.length > 15) {
+        suggestions.push("Your brand name is quite long. A shorter name might be more memorable and easier to type.");
+      }
+      
+      if (brandName.includes(' ')) {
+        suggestions.push("Multi-word brand names can be challenging for SEO. Consider a single word or compound word.");
+      }
+      
+      if (!/^[a-zA-Z0-9]+$/.test(brandName)) {
+        suggestions.push("Special characters or spaces in your brand name may complicate web searches. Consider using only letters and numbers.");
+      }
+      
+      if (industry) {
+        suggestions.push(`Try incorporating keywords related to the ${industry} industry for better relevance.`);
+      }
+      
+      if (suggestions.length === 0) {
+        suggestions.push("Your brand name looks good! Keep monitoring its performance and make adjustments if needed.");
+      }
+      
+      return suggestions;
+    }
+  </script>
+</body></html>

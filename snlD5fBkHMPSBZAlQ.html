@@ -1,0 +1,243 @@
+<html><head><base href="https://digital-marketing-toolkit.com/seo-guide/on-page-seo">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On-Page SEO Analyzer | Digital Marketing Toolkit</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  form {
+    margin-bottom: 2rem;
+  }
+  
+  input[type="url"], textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #27ae60;
+  }
+  
+  #results {
+    margin-top: 2rem;
+  }
+  
+  .score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .recommendation {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  .recommendation h3 {
+    margin-top: 0;
+  }
+  
+  .good {
+    border-left: 5px solid var(--secondary-color);
+  }
+  
+  .warning {
+    border-left: 5px solid #f39c12;
+  }
+  
+  .error {
+    border-left: 5px solid #e74c3c;
+  }
+  
+  #loadingSpinner {
+    display: none;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>On-Page SEO Analyzer</h1>
+    <p>Optimize your web pages for better search rankings</p>
+  </header>
+  
+  <main>
+    <form id="seoForm">
+      <label for="pageUrl">Enter the URL of the page you want to analyze:</label>
+      <input type="url" id="pageUrl" required placeholder="https://example.com/your-page">
+      
+      <label for="focusKeyword">Enter your focus keyword or phrase:</label>
+      <input type="text" id="focusKeyword" required placeholder="e.g., digital marketing tips">
+      
+      <button type="submit">Analyze On-Page SEO</button>
+    </form>
+    
+    <div id="loadingSpinner">
+      <div class="spinner"></div>
+      <p>Analyzing your page... This may take a few moments.</p>
+    </div>
+    
+    <div id="results"></div>
+  </main>
+
+  <script>
+    document.getElementById('seoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const url = document.getElementById('pageUrl').value;
+      const keyword = document.getElementById('focusKeyword').value;
+      analyzeOnPageSeo(url, keyword);
+    });
+
+    function analyzeOnPageSeo(url, keyword) {
+      const resultsDiv = document.getElementById('results');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      
+      resultsDiv.innerHTML = '';
+      loadingSpinner.style.display = 'block';
+      
+      // Simulating API call and analysis
+      setTimeout(() => {
+        loadingSpinner.style.display = 'none';
+        
+        const score = Math.floor(Math.random() * 41) + 60; // Random score between 60-100
+        
+        let resultsHTML = `<h2>SEO Analysis Results for ${url}</h2>`;
+        resultsHTML += `<div class="score">Overall On-Page SEO Score: ${score}/100</div>`;
+        
+        const recommendations = [
+          {
+            title: "Title Tag",
+            status: Math.random() > 0.5 ? "good" : "warning",
+            message: "Your title tag is well-optimized and includes your focus keyword.",
+            suggestion: "Consider moving your focus keyword closer to the beginning of the title for even better results."
+          },
+          {
+            title: "Meta Description",
+            status: Math.random() > 0.7 ? "good" : "error",
+            message: "Your meta description is missing or too short.",
+            suggestion: "Add a compelling meta description between 120-155 characters that includes your focus keyword."
+          },
+          {
+            title: "Header Tags",
+            status: Math.random() > 0.6 ? "good" : "warning",
+            message: "You're using header tags, but they could be optimized better.",
+            suggestion: "Ensure your H1 tag includes your focus keyword and use H2-H6 tags to structure your content logically."
+          },
+          {
+            title: "Keyword Density",
+            status: Math.random() > 0.5 ? "good" : "warning",
+            message: `Your focus keyword "${keyword}" appears in the content, but the density could be improved.`,
+            suggestion: "Aim for a keyword density between 1-2% for natural optimization."
+          },
+          {
+            title: "Content Length",
+            status: Math.random() > 0.7 ? "good" : "error",
+            message: "Your content may be too short for comprehensive coverage of the topic.",
+            suggestion: "Consider expanding your content to at least 1000 words for in-depth coverage and better SEO performance."
+          },
+          {
+            title: "Image Alt Text",
+            status: Math.random() > 0.6 ? "warning" : "error",
+            message: "Some of your images are missing alt text.",
+            suggestion: "Add descriptive alt text to all images, including your focus keyword where appropriate."
+          },
+          {
+            title: "Internal Linking",
+            status: Math.random() > 0.5 ? "good" : "warning",
+            message: "Your page has some internal links, but there's room for improvement.",
+            suggestion: "Add more relevant internal links to help users and search engines navigate your site."
+          }
+        ];
+        
+        recommendations.forEach(rec => {
+          resultsHTML += `
+            <div class="recommendation ${rec.status}">
+              <h3>${rec.title}</h3>
+              <p>${rec.message}</p>
+              <p><strong>Suggestion:</strong> ${rec.suggestion}</p>
+            </div>
+          `;
+        });
+        
+        resultsHTML += `
+          <h3>Next Steps</h3>
+          <p>Based on these recommendations, update your page content and HTML structure to improve your on-page SEO. After making changes, run this analysis again to see your improved score!</p>
+          <p>Remember, on-page SEO is just one aspect of a comprehensive SEO strategy. Don't forget to also focus on:</p>
+          <ul>
+            <li>Building high-quality backlinks</li>
+            <li>Improving site speed and performance</li>
+            <li>Ensuring mobile-friendliness</li>
+            <li>Creating fresh, valuable content regularly</li>
+          </ul>
+        `;
+        
+        resultsDiv.innerHTML = resultsHTML;
+      }, 3000);
+    }
+  </script>
+</body></html>
